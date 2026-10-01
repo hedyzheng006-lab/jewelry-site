@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 
-const brand = process.env.NEXT_PUBLIC_BRAND_NAME || "Aurelia";
+const brand = process.env.NEXT_PUBLIC_BRAND_NAME || "Hayaurie";
 
 export const metadata: Metadata = {
   title: { default: `${brand} Fine Jewelry`, template: `%s | ${brand}` },

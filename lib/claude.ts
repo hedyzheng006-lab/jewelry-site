@@ -6,7 +6,7 @@ export const MODEL = "claude-opus-5-5";
 
 const client = new Anthropic();
 
-export const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME || "Aurelia";
+export const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME || "Hayaurie";
 
 export class RefusalError extends Error {}
 export class MissingKeyError extends Error {}
