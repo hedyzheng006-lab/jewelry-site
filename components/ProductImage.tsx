@@ -2,6 +2,7 @@ import type { Product } from "@/lib/products";
 
 const METAL: Record<Product["metal"], string> = {
   gold: "#c9a24a",
+  "gold-plated": "#c9a24a",
   silver: "#a9b0b8",
   "rose-gold": "#d29a85",
 };

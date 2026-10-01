@@ -1,6 +1,6 @@
 // Sample catalog. Replace with real products (and real photos in /public/products).
 export type Category = "ring" | "necklace" | "earrings" | "bracelet";
-export type Metal = "gold" | "silver" | "rose-gold";
+export type Metal = "gold" | "gold-plated" | "silver" | "rose-gold";
 
 export interface Product {
   id: string;
@@ -35,11 +35,11 @@ export const products: Product[] = [
     id: "pearl-loop-studs",
     name: "Pearl Loop Studs",
     category: "earrings",
-    metal: "gold",
+    metal: "gold-plated",
     stone: "freshwater pearl",
     stoneColor: "#f4efe6",
     price: 25,
-    description: "Two round pearls nestled beneath a sleek gold-tone teardrop loop, on post backs.",
+    description: "Two round pearls nestled beneath a sleek gold-plated teardrop loop, on post backs.",
     story: "A modern twist on the classic pearl stud. Light enough for every day, polished enough for evenings out.",
     tags: ["everyday", "pearl", "minimal", "gift", "affordable", "birthstone-june"],
     image: "/products/pearl-loop-studs.png",
