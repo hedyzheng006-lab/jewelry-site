@@ -14,6 +14,8 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 90px; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.2; }
