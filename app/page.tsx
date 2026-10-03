@@ -2,7 +2,7 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/lib/products";
 
-const featured = ["rose-garden-pendant", "dawn-solitaire", "midnight-studs", "linked-cuff"];
+const featured = ["rose-garden-pendant", "dawn-solitaire", "pearl-teardrop-studs", "linked-cuff"];
 
 const tools = [
   { href: "/advisor", title: "AI Jewelry Advisor", text: "Tell us the occasion, budget and style. Get picks from our collection with reasons." },
