@@ -70,7 +70,7 @@ export default function Custom() {
             maxLength={2000}
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
-            placeholder="e.g. A thin gold ring with a tiny wave engraved around it and our wedding date inside, for my partner who surfs"
+            placeholder="e.g. A dainty gold necklace with a small wave pendant and our wedding date engraved on the back, for my partner who surfs"
           />
         </label>
         <label>Budget (optional)

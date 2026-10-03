@@ -8,7 +8,7 @@ import { getProduct } from "@/lib/products";
 type Turn = { role: "user" | "assistant"; content: string; productIds?: string[] };
 
 const starters = [
-  "A minimalist ring I can wear every day, under $200",
+  "Minimalist earrings I can wear every day, under $50",
   "Earrings for a black-tie wedding",
   "Something for my mom's 60th birthday, she loves pink",
 ];

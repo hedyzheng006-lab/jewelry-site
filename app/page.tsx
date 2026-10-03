@@ -2,7 +2,7 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/lib/products";
 
-const featured = ["rose-garden-pendant", "dawn-solitaire", "pearl-teardrop-studs", "linked-cuff"];
+const featured = ["pearl-nest-studs", "pearl-teardrop-studs", "pearl-loop-studs", "rose-garden-pendant"];
 
 const tools = [
   { href: "/advisor", title: "AI Jewelry Advisor", text: "Tell us the occasion, budget and style. Get picks from our collection with reasons." },
@@ -16,7 +16,7 @@ export default function Home() {
       <section className="hero">
         <p className="eyebrow">Handcrafted fine jewelry</p>
         <h1>Pieces made to mark the moments that matter</h1>
-        <p className="lead">Small-batch rings, necklaces and earrings, and an AI advisor that helps you find the one.</p>
+        <p className="lead">Small-batch earrings and necklaces, and an AI advisor that helps you find the one.</p>
         <div className="actions">
           <Link href="/collection" className="btn">Shop the collection</Link>
           <Link href="/advisor" className="btn btn-outline">Ask the AI advisor</Link>

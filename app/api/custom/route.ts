@@ -8,7 +8,7 @@ const Input = z.object({
 
 const Output = z.object({
   title: z.string().describe("A short evocative name for the design"),
-  pieceType: z.string().describe("ring, necklace, earrings, bracelet, or other"),
+  pieceType: z.string().describe("earrings, necklace, or other"),
   metal: z.string(),
   stones: z.string().describe("Stones and cuts, or 'none'"),
   style: z.string().describe("Design style in a few words"),

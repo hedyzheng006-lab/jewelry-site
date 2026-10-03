@@ -1,5 +1,5 @@
 // Sample catalog. Replace with real products (and real photos in /public/products).
-export type Category = "ring" | "necklace" | "earrings" | "bracelet";
+export type Category = "necklace" | "earrings";
 export type Metal = "gold" | "gold-plated" | "silver" | "rose-gold";
 
 export interface Product {
@@ -19,18 +19,6 @@ export interface Product {
 }
 
 export const products: Product[] = [
-  {
-    id: "dawn-solitaire",
-    name: "Dawn Solitaire Ring",
-    category: "ring",
-    metal: "gold",
-    stone: "white sapphire",
-    stoneColor: "#e8eef5",
-    price: 420,
-    description: "A single round white sapphire held in a slim 14k gold band.",
-    story: "Made for the first light of a new chapter: engagements, promotions, fresh starts.",
-    tags: ["minimal", "engagement", "everyday", "classic"],
-  },
   {
     id: "pearl-loop-studs",
     name: "Pearl Loop Studs",
@@ -70,30 +58,6 @@ export const products: Product[] = [
     image: "/products/pearl-teardrop-studs.png",
   },
   {
-    id: "linked-cuff",
-    name: "Linked Cuff Bracelet",
-    category: "bracelet",
-    metal: "silver",
-    stone: null,
-    stoneColor: null,
-    price: 150,
-    description: "An open sterling silver cuff made of interlocking links.",
-    story: "Two halves that hold together. A favorite for friendship and partnership gifts.",
-    tags: ["bold", "friendship", "unisex", "modern"],
-  },
-  {
-    id: "emerald-halo",
-    name: "Emerald Halo Ring",
-    category: "ring",
-    metal: "gold",
-    stone: "emerald",
-    stoneColor: "#1f8a5b",
-    price: 680,
-    description: "An oval emerald surrounded by a halo of small white sapphires, 18k gold.",
-    story: "May's birthstone, framed like a small garden. A statement for milestone moments.",
-    tags: ["statement", "birthstone-may", "luxury", "anniversary"],
-  },
-  {
     id: "pearl-nest-studs",
     name: "Pearl Nest Studs",
     category: "earrings",
@@ -117,30 +81,6 @@ export const products: Product[] = [
     description: "A delicate silver chain scattered with tiny stones, like stars.",
     story: "For the ones who make wishes. Layers well with other chains.",
     tags: ["layering", "everyday", "dainty", "affordable"],
-  },
-  {
-    id: "amethyst-bar",
-    name: "Amethyst Bar Bracelet",
-    category: "bracelet",
-    metal: "rose-gold",
-    stone: "amethyst",
-    stoneColor: "#8a5cc2",
-    price: 135,
-    description: "A slim rose gold bar set with three small amethysts on an adjustable chain.",
-    story: "February's birthstone, long linked with calm and clarity.",
-    tags: ["dainty", "birthstone-february", "gift", "calm"],
-  },
-  {
-    id: "signet-classic",
-    name: "Classic Signet Ring",
-    category: "ring",
-    metal: "silver",
-    stone: null,
-    stoneColor: null,
-    price: 110,
-    description: "A heavy sterling silver signet with a flat face, ready for engraving.",
-    story: "A ring meant to carry initials, dates or a small symbol that matters to you.",
-    tags: ["engravable", "unisex", "classic", "personalized"],
   },
   {
     id: "ruby-heart",

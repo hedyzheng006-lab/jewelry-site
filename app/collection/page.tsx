@@ -4,10 +4,8 @@ import { products, type Category } from "@/lib/products";
 export const metadata = { title: "Collection" };
 
 const sections: { key: Category; label: string }[] = [
-  { key: "ring", label: "Rings" },
-  { key: "necklace", label: "Necklaces" },
   { key: "earrings", label: "Earrings" },
-  { key: "bracelet", label: "Bracelets" },
+  { key: "necklace", label: "Necklaces" },
 ];
 
 export default function Collection() {
