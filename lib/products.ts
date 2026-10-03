@@ -33,16 +33,17 @@ export const products: Product[] = [
     image: "/products/pearl-loop-studs.png",
   },
   {
-    id: "rose-garden-pendant",
-    name: "Rose Garden Pendant",
+    id: "pearl-halo-necklace",
+    name: "Pearl Halo Necklace",
     category: "necklace",
-    metal: "rose-gold",
-    stone: "pink tourmaline",
-    stoneColor: "#e79bb4",
-    price: 260,
-    description: "A pear-cut pink tourmaline on a fine rose gold chain, 18 inches.",
-    story: "Pink tourmaline is said to carry love and compassion. A gentle gift for someone dear.",
-    tags: ["romantic", "gift", "anniversary", "feminine"],
+    metal: "gold-plated",
+    stone: "pearl with clear stones",
+    stoneColor: "#f4efe6",
+    price: 39.9,
+    description: "A round pearl framed by a crescent of sparkling clear stones, on a fine cable chain. Gold-plated sterling silver.",
+    story: "A little halo of light around a single pearl, delicate enough to wear every day and pretty enough for special occasions.",
+    tags: ["pearl", "sparkle", "dainty", "everyday", "gift", "bridal", "birthstone-june"],
+    image: "/products/pearl-halo-necklace.png",
   },
   {
     id: "pearl-teardrop-studs",
@@ -96,6 +97,11 @@ export const products: Product[] = [
   },
 ];
 
+// $25 stays "$25"; $39.9 shows as "$39.90".
+export function formatPrice(price: number): string {
+  return `$${Number.isInteger(price) ? price : price.toFixed(2)}`;
+}
+
 export function getProduct(id: string): Product | undefined {
   return products.find((p) => p.id === id);
 }
@@ -105,7 +111,7 @@ export function catalogForPrompt(): string {
   return products
     .map(
       (p) =>
-        `- id: ${p.id} | ${p.name} | ${p.category} | ${p.metal}${p.stone ? ` + ${p.stone}` : ""} | $${p.price} | ${p.description} | tags: ${p.tags.join(", ")}`,
+        `- id: ${p.id} | ${p.name} | ${p.category} | ${p.metal}${p.stone ? ` + ${p.stone}` : ""} | ${formatPrice(p.price)} | ${p.description} | tags: ${p.tags.join(", ")}`,
     )
     .join("\n");
 }

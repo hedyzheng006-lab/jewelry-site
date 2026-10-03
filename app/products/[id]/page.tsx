@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductImage from "@/components/ProductImage";
-import { getProduct, products } from "@/lib/products";
+import { formatPrice, getProduct, products } from "@/lib/products";
 
 export function generateStaticParams() {
   return products.map((p) => ({ id: p.id }));
@@ -23,7 +23,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
       <div>
         <p className="eyebrow">{product.category}</p>
         <h1>{product.name}</h1>
-        <p className="price big">${product.price}</p>
+        <p className="price big">{formatPrice(product.price)}</p>
         <p>{product.description}</p>
         <p className="story">{product.story}</p>
         <ul className="specs">
