@@ -20,10 +20,6 @@ export default function Home() {
         <p className="eyebrow">Handcrafted fine jewelry</p>
         <h1>Pieces made to mark the moments that matter</h1>
         <p className="lead">Small-batch earrings and necklaces, and an AI advisor that helps you find the one.</p>
-        <div className="actions">
-          <a href="#earrings" className="btn">Shop the collection</a>
-          <Link href="/advisor" className="btn btn-outline">Ask the AI advisor</Link>
-        </div>
       </section>
 
       {sections.map((s) => (
