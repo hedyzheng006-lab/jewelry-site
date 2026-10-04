@@ -97,6 +97,19 @@ export const products: Product[] = [
     tags: ["pearl", "sparkle", "elegant", "everyday", "gift", "bridal", "birthstone-june"],
     image: "/products/pearl-smile-necklace.png",
   },
+  {
+    id: "seven-pearl-necklace",
+    name: "Seven Pearl Necklace",
+    category: "necklace",
+    metal: "silver",
+    stone: "natural pearl",
+    stoneColor: "#f4efe6",
+    price: 39.9,
+    description: "Seven round natural pearls in a soft curve on a fine chain. 925 sterling silver.",
+    story: "A gentle arc of pearls that frames the neckline. Timeless and clean, easy to layer or wear on its own.",
+    tags: ["pearl", "classic", "minimal", "everyday", "gift", "bridal", "silver", "birthstone-june"],
+    image: "/products/seven-pearl-necklace.png",
+  },
 ];
 
 // $25 stays "$25"; $39.9 shows as "$39.90".
