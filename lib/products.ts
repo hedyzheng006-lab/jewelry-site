@@ -110,6 +110,19 @@ export const products: Product[] = [
     tags: ["pearl", "classic", "minimal", "everyday", "gift", "bridal", "silver", "birthstone-june"],
     image: "/products/seven-pearl-necklace.png",
   },
+  {
+    id: "balance-pearl-smile-pendant",
+    name: "Balance Graduated Pearl Smile Pendant",
+    category: "necklace",
+    metal: "gold-plated",
+    stone: "freshwater pearl, clear stones",
+    stoneColor: "#f4efe6",
+    price: 32.9,
+    description: "From our Balance collection: a slim curved bar lined with tiny sparkling clear stones, with five freshwater pearls graduating in size beneath, on a fine cable chain. Gold-plated.",
+    story: "Pearls that grow from small to large along a gentle curve, a quiet smile of light at the neckline.",
+    tags: ["pearl", "sparkle", "elegant", "everyday", "gift", "bridal", "birthstone-june"],
+    image: "/products/balance-pearl-smile-pendant.png",
+  },
 ];
 
 // $25 stays "$25"; $39.9 shows as "$39.90".
