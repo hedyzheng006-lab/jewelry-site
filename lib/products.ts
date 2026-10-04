@@ -1,6 +1,6 @@
 // Sample catalog. Replace with real products (and real photos in /public/products).
 export type Category = "necklace" | "earrings";
-export type Metal = "gold" | "gold-plated" | "silver" | "rose-gold";
+export type Metal = "gold" | "gold-plated" | "silver" | "silver-tone" | "rose-gold";
 
 export interface Product {
   id: string;
@@ -114,11 +114,11 @@ export const products: Product[] = [
     id: "balance-pearl-smile-pendant",
     name: "Balance Graduated Pearl Smile Pendant",
     category: "necklace",
-    metal: "gold-plated",
+    metal: "silver-tone",
     stone: "freshwater pearl, clear stones",
     stoneColor: "#f4efe6",
     price: 32.9,
-    description: "From our Balance collection: a slim curved bar lined with tiny sparkling clear stones, with five freshwater pearls graduating in size beneath, on a fine cable chain. Gold-plated.",
+    description: "From our Balance collection: a slim curved bar lined with tiny sparkling clear stones, with five freshwater pearls graduating in size beneath, on a fine silver-tone cable chain.",
     story: "Pearls that grow from small to large along a gentle curve, a quiet smile of light at the neckline.",
     tags: ["pearl", "sparkle", "elegant", "everyday", "gift", "bridal", "birthstone-june"],
     image: "/products/balance-pearl-smile-pendant.png",
