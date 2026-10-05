@@ -7,8 +7,7 @@ export default function GiftCard() {
   const [form, setForm] = useState({ orderNumber: "", recipient: "", occasion: "", website: "" });
   const [ideas, setIdeas] = useState<string[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
-  const [message, setMessage] = useState("");
-  const [copied, setCopied] = useState<number | null>(null);
+  const [editing, setEditing] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -28,6 +27,7 @@ export default function GiftCard() {
       });
       setIdeas(messages);
       setSelected(null);
+      setEditing(null);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -35,9 +35,10 @@ export default function GiftCard() {
     }
   }
 
-  function choose(i: number) {
-    setSelected(i);
-    setMessage(ideas[i]);
+  const message = selected === null ? "" : ideas[selected];
+
+  function edit(i: number, text: string) {
+    setIdeas(ideas.map((m, j) => (j === i ? text : m)));
   }
 
   async function send() {
@@ -96,24 +97,27 @@ export default function GiftCard() {
       {ideas.length > 0 && (
         <div className="result">
           <h2>Card message ideas</h2>
-          <p className="muted small">Pick one to use it, or copy it and make it your own below.</p>
+          <p className="muted small">Pick the one you like. Tap Edit to change any words.</p>
           <div className="cards-msg">
             {ideas.map((m, i) => (
               <div key={i} className={`gift-card${selected === i ? " selected" : ""}`}>
-                <p>{m}</p>
+                {editing === i ? (
+                  <textarea
+                    className="gift-edit"
+                    autoFocus
+                    value={m}
+                    maxLength={600}
+                    onChange={(e) => edit(i, e.target.value)}
+                  />
+                ) : (
+                  <p>{m}</p>
+                )}
                 <div className="gift-actions">
-                  <button type="button" className="link-btn" onClick={() => choose(i)}>
+                  <button type="button" className="link-btn" onClick={() => setSelected(i)}>
                     {selected === i ? "Selected" : "Use this"}
                   </button>
-                  <button
-                    type="button"
-                    className="link-btn"
-                    onClick={() => {
-                      navigator.clipboard?.writeText(m);
-                      setCopied(i);
-                    }}
-                  >
-                    {copied === i ? "Copied" : "Copy"}
+                  <button type="button" className="link-btn" onClick={() => setEditing(editing === i ? null : i)}>
+                    {editing === i ? "Done" : "Edit"}
                   </button>
                 </div>
               </div>
@@ -121,14 +125,11 @@ export default function GiftCard() {
           </div>
 
           <div className="form">
-            <label>Your card message
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                maxLength={600}
-                placeholder="Choose an idea above, paste one, or write your own."
-              />
-            </label>
+            {message.trim() ? (
+              <p className="muted small">Your card will read: <em>{message}</em></p>
+            ) : (
+              <p className="muted small">Choose a message above to continue.</p>
+            )}
             <button type="button" className="btn" disabled={sending || !message.trim()} onClick={send}>
               {sending ? "Sending…" : "Send my card"}
             </button>
