@@ -3,8 +3,9 @@
 export class SheetNotConfiguredError extends Error {}
 
 export async function appendToSheet(type: "custom-request" | "gift-card", fields: Record<string, string>) {
-  const url = process.env.INQUIRY_WEBHOOK_URL;
-  const secret = process.env.INQUIRY_WEBHOOK_SECRET;
+  // Trim: values pasted into Vercel often pick up a stray space or newline.
+  const url = process.env.INQUIRY_WEBHOOK_URL?.trim();
+  const secret = process.env.INQUIRY_WEBHOOK_SECRET?.trim();
   if (!url || !secret) throw new SheetNotConfiguredError("INQUIRY_WEBHOOK_URL or INQUIRY_WEBHOOK_SECRET is not set");
 
   const res = await fetch(url, {
@@ -12,8 +13,12 @@ export async function appendToSheet(type: "custom-request" | "gift-card", fields
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify({ secret, type, ...fields }),
   });
-  const data = await res.json().catch(() => null);
-  if (!res.ok || !data?.ok) throw new Error(`Sheet webhook failed: ${res.status} ${JSON.stringify(data)}`);
+  const text = await res.text();
+  let data: { ok?: boolean } | null = null;
+  try {
+    data = JSON.parse(text);
+  } catch {}
+  if (!res.ok || !data?.ok) throw new Error(`Sheet webhook failed: ${res.status} ${text.slice(0, 500)}`);
 }
 
 export function sheetErrorResponse(error: unknown): Response {
