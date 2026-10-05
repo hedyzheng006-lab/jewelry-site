@@ -16,43 +16,40 @@ type Brief = {
   svg: string;
 };
 
-const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@example.com";
-
-function briefText(b: Brief, idea: string, budget: string) {
-  return [
-    `Custom design request: ${b.title}`,
-    "",
-    `My idea: ${idea}`,
-    `Budget: ${budget || "not given"}`,
-    "",
-    `Piece: ${b.pieceType}`,
-    `Metal: ${b.metal}`,
-    `Stones: ${b.stones}`,
-    `Style: ${b.style}`,
-    `Engraving: ${b.engraving}`,
-    "Details:",
-    ...b.details.map((d) => `- ${d}`),
-  ].join("\n");
-}
-
 export default function Custom() {
   const [idea, setIdea] = useState("");
   const [budget, setBudget] = useState("");
-  const [brief, setBrief] = useState<Brief | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [website, setWebsite] = useState("");
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const [brief, setBrief] = useState<Brief | null>(null);
+  const [sketching, setSketching] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
+    setSending(true);
     setError("");
-    setBrief(null);
     try {
-      setBrief(await postJSON<Brief>("/api/custom", { idea, budget }));
+      await postJSON("/api/inquiry", { idea, budget, email, phone, website });
     } catch (err) {
       setError((err as Error).message);
+      setSending(false);
+      return;
+    }
+    setSending(false);
+    setSent(true);
+
+    // The request is saved; the AI concept sketch is a bonus and may fail quietly.
+    setSketching(true);
+    try {
+      setBrief(await postJSON<Brief>("/api/custom", { idea, budget }));
+    } catch {
+      // ignore
     } finally {
-      setLoading(false);
+      setSketching(false);
     }
   }
 
@@ -60,26 +57,42 @@ export default function Custom() {
     <div className="page narrow">
       <p className="eyebrow">Custom Design</p>
       <h1>Describe the piece you imagine</h1>
-      <p className="lead">We&apos;ll turn your idea into a concept sketch and a design brief you can send to our jeweler for a quote.</p>
+      <p className="lead">Tell us about your idea and we&apos;ll get back to you by email with design options and a quote.</p>
 
-      <form className="form" onSubmit={submit}>
-        <label>Your idea
-          <textarea
-            required
-            minLength={5}
-            maxLength={2000}
-            value={idea}
-            onChange={(e) => setIdea(e.target.value)}
-            placeholder="e.g. A dainty gold necklace with a small wave pendant and our wedding date engraved on the back, for my partner who surfs"
-          />
-        </label>
-        <label>Budget (optional)
-          <input value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="e.g. $400" maxLength={50} />
-        </label>
-        <button className="btn" disabled={loading}>{loading ? "Sketching…" : "Create my design"}</button>
-      </form>
-
-      {error && <p className="error">{error}</p>}
+      {sent ? (
+        <div className="notice">
+          <h2>Thank you, we&apos;ve received your request.</h2>
+          <p>We&apos;ll reply to {email} soon.</p>
+          {sketching && <p className="muted">Sketching an AI concept of your idea…</p>}
+        </div>
+      ) : (
+        <form className="form" onSubmit={submit}>
+          <label>Your idea *
+            <textarea
+              required
+              minLength={5}
+              maxLength={2000}
+              value={idea}
+              onChange={(e) => setIdea(e.target.value)}
+              placeholder="e.g. A dainty gold necklace with a small wave pendant and our wedding date engraved on the back, for my partner who surfs"
+            />
+          </label>
+          <label>Budget (optional)
+            <input value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="e.g. $400" maxLength={50} />
+          </label>
+          <label>Email *
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" maxLength={200} autoComplete="email" />
+          </label>
+          <label>Phone (optional)
+            <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 555 123 4567" maxLength={40} autoComplete="tel" />
+          </label>
+          <label className="hp" aria-hidden="true">Website
+            <input tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+          </label>
+          <button className="btn" disabled={sending}>{sending ? "Sending…" : "Send my request"}</button>
+          {error && <p className="error">{error}</p>}
+        </form>
+      )}
 
       {brief && (
         <div className="result design">
@@ -106,13 +119,7 @@ export default function Custom() {
             <p>{brief.budgetFit}</p>
             <h3>Our jeweler may ask</h3>
             <ul>{brief.openQuestions.map((q) => <li key={q}>{q}</li>)}</ul>
-            <a
-              className="btn"
-              href={`mailto:${contactEmail}?subject=${encodeURIComponent(`Custom design: ${brief.title}`)}&body=${encodeURIComponent(briefText(brief, idea, budget))}`}
-            >
-              Send this brief to our jeweler
-            </a>
-            <p className="muted small">The sketch is an AI concept to start the conversation. Your final piece is designed with our jeweler.</p>
+            <p className="muted small">This sketch is an AI concept to start the conversation. Your final piece is designed with our jeweler, who will follow up by email.</p>
           </div>
         </div>
       )}

@@ -10,7 +10,7 @@ const sections: { key: Category; label: string }[] = [
 const tools = [
   { href: "/advisor", title: "AI Jewelry Advisor", text: "Tell us the occasion, budget and style. Get picks from our collection with reasons." },
   { href: "/gift", title: "Gift Finder", text: "Answer a few questions about them. Get gift ideas and a card message ready to write." },
-  { href: "/custom", title: "Custom Design", text: "Describe the piece you imagine. See a concept sketch and a design brief for our jeweler." },
+  { href: "/custom", title: "Custom Design", text: "Describe the piece you imagine and send it to our jeweler. Get an AI concept sketch while you wait." },
 ];
 
 export default function Home() {

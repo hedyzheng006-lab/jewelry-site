@@ -122,3 +122,8 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); ou
 .field-out { border-bottom: 1px solid var(--line); padding: 12px 0; }
 .field-out p { margin: 4px 0 0; white-space: pre-wrap; }
 .field-head { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); }
+
+.notice { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; margin: 24px 0; }
+.notice h2 { margin: 0 0 8px; }
+.notice p { margin: 4px 0 0; }
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
