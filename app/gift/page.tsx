@@ -1,33 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import ProductCard from "@/components/ProductCard";
 import { postJSON } from "@/lib/post";
-import { getProduct } from "@/lib/products";
 
-type Result = {
-  summary: string;
-  picks: { productId: string; reason: string }[];
-  cardMessages: string[];
-};
-
-export default function Gift() {
-  const [form, setForm] = useState({ relationship: "", occasion: "", budget: "", style: "", notes: "" });
-  const [result, setResult] = useState<Result | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+export default function GiftCard() {
+  const [form, setForm] = useState({ orderNumber: "", recipient: "", occasion: "", website: "" });
+  const [ideas, setIdeas] = useState<string[]>([]);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [message, setMessage] = useState("");
   const [copied, setCopied] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
 
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, [k]: e.target.value });
 
-  async function submit(e: React.FormEvent) {
+  async function generate(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
-    setResult(null);
     try {
-      setResult(await postJSON<Result>("/api/gift", form));
+      const { messages } = await postJSON<{ messages: string[] }>("/api/gift", {
+        recipient: form.recipient,
+        occasion: form.occasion,
+      });
+      setIdeas(messages);
+      setSelected(null);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -35,64 +35,103 @@ export default function Gift() {
     }
   }
 
+  function choose(i: number) {
+    setSelected(i);
+    setMessage(ideas[i]);
+  }
+
+  async function send() {
+    setSending(true);
+    setError("");
+    try {
+      await postJSON("/api/gift-card", { ...form, message });
+      setSent(true);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setSending(false);
+    }
+  }
+
+  if (sent) {
+    return (
+      <div className="page narrow">
+        <p className="eyebrow">Gift Card</p>
+        <h1>Your card is on its way</h1>
+        <div className="notice">
+          <h2>Thank you, we&apos;ve saved your card for order {form.orderNumber}.</h2>
+          <p className="gift-preview">{message}</p>
+          <p className="muted">We&apos;ll include it with your jewelry, free of charge.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="page narrow">
-      <p className="eyebrow">Gift Finder</p>
-      <h1>Find a gift they&apos;ll keep forever</h1>
-      <p className="lead">Tell us a little about them. We&apos;ll suggest pieces and write a card message for you.</p>
+      <p className="eyebrow">Gift Card</p>
+      <h1>Add a free card to your gift</h1>
+      <p className="lead">Bought a piece as a gift? Enter your order number and we&apos;ll include a card with your message, free.</p>
 
-      <form className="form" onSubmit={submit}>
+      <form className="form" onSubmit={generate}>
+        <label>Jewelry order number *
+          <input required value={form.orderNumber} onChange={set("orderNumber")} placeholder="e.g. HY-1024" maxLength={60} />
+        </label>
         <label>Who is it for?
-          <input required value={form.relationship} onChange={set("relationship")} placeholder="e.g. wife, best friend, mom" maxLength={100} />
+          <input value={form.recipient} onChange={set("recipient")} placeholder="e.g. my wife, best friend, mom" maxLength={100} />
         </label>
         <label>Occasion
-          <input required value={form.occasion} onChange={set("occasion")} placeholder="e.g. 10th anniversary, graduation" maxLength={100} />
+          <input value={form.occasion} onChange={set("occasion")} placeholder="e.g. 10th anniversary, birthday, graduation" maxLength={100} />
         </label>
-        <label>Budget
-          <select required value={form.budget} onChange={set("budget")}>
-            <option value="">Choose…</option>
-            <option>Under $100</option>
-            <option>$100 to $250</option>
-            <option>$250 to $500</option>
-            <option>Over $500</option>
-          </select>
+        <label className="hp" aria-hidden="true">Website
+          <input tabIndex={-1} autoComplete="off" value={form.website} onChange={set("website")} />
         </label>
-        <label>Their style
-          <input required value={form.style} onChange={set("style")} placeholder="e.g. minimal, wears mostly silver, loves the ocean" maxLength={300} />
-        </label>
-        <label>Anything else? (optional)
-          <textarea value={form.notes} onChange={set("notes")} placeholder="Birth month, hobbies, a shared memory…" maxLength={1000} />
-        </label>
-        <button className="btn" disabled={loading}>{loading ? "Finding ideas…" : "Find gift ideas"}</button>
+        <button className="btn" disabled={loading}>
+          {loading ? "Writing ideas…" : ideas.length ? "Get new ideas" : "Get card message ideas"}
+        </button>
       </form>
 
       {error && <p className="error">{error}</p>}
 
-      {result && (
+      {ideas.length > 0 && (
         <div className="result">
-          <p className="summary">{result.summary}</p>
-          <div className="grid">
-            {result.picks.map((pick) => {
-              const p = getProduct(pick.productId);
-              return p ? <ProductCard key={p.id} product={p} note={pick.reason} /> : null;
-            })}
-          </div>
           <h2>Card message ideas</h2>
+          <p className="muted small">Pick one to use it, or copy it and make it your own below.</p>
           <div className="cards-msg">
-            {result.cardMessages.map((m, i) => (
-              <div key={i} className="gift-card">
+            {ideas.map((m, i) => (
+              <div key={i} className={`gift-card${selected === i ? " selected" : ""}`}>
                 <p>{m}</p>
-                <button
-                  className="link-btn"
-                  onClick={() => {
-                    navigator.clipboard?.writeText(m);
-                    setCopied(i);
-                  }}
-                >
-                  {copied === i ? "Copied" : "Copy"}
-                </button>
+                <div className="gift-actions">
+                  <button type="button" className="link-btn" onClick={() => choose(i)}>
+                    {selected === i ? "Selected" : "Use this"}
+                  </button>
+                  <button
+                    type="button"
+                    className="link-btn"
+                    onClick={() => {
+                      navigator.clipboard?.writeText(m);
+                      setCopied(i);
+                    }}
+                  >
+                    {copied === i ? "Copied" : "Copy"}
+                  </button>
+                </div>
               </div>
             ))}
+          </div>
+
+          <div className="form">
+            <label>Your card message
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                maxLength={600}
+                placeholder="Choose an idea above, paste one, or write your own."
+              />
+            </label>
+            <button type="button" className="btn" disabled={sending || !message.trim()} onClick={send}>
+              {sending ? "Sending…" : "Send my card"}
+            </button>
           </div>
         </div>
       )}

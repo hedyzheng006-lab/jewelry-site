@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Link href="/" className="logo">{brand}</Link>
           <nav>
             <Link href="/advisor">AI Advisor</Link>
-            <Link href="/gift">Gift Finder</Link>
+            <Link href="/gift">Gift Card</Link>
             <Link href="/custom">Custom Design</Link>
           </nav>
         </header>
