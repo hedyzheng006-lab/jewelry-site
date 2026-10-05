@@ -19,7 +19,6 @@ export default function Home() {
       <section className="hero">
         <p className="eyebrow">Handcrafted fine jewelry</p>
         <h1>Pieces made to mark the moments that matter</h1>
-        <p className="lead">Small-batch earrings and necklaces, and an AI advisor that helps you find the one.</p>
       </section>
 
       {sections.map((s) => (
