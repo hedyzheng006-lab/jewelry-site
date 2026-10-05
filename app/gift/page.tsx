@@ -47,6 +47,7 @@ export default function GiftCard() {
     try {
       await postJSON("/api/gift-card", { ...form, message });
       setSent(true);
+      window.scrollTo(0, 0);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -58,11 +59,11 @@ export default function GiftCard() {
     return (
       <div className="page narrow">
         <p className="eyebrow">Gift Card</p>
-        <h1>Your card is on its way</h1>
+        <h1>Thank you</h1>
         <div className="notice">
-          <h2>Thank you, we&apos;ve saved your card for order {form.orderNumber}.</h2>
+          <h2>We&apos;ve received your card message.</h2>
+          <p>It will be shipped together with your jewelry (order {form.orderNumber}).</p>
           <p className="gift-preview">{message}</p>
-          <p className="muted">We&apos;ll include it with your jewelry, free of charge.</p>
         </div>
       </div>
     );
@@ -131,7 +132,7 @@ export default function GiftCard() {
               <p className="muted small">Choose a message above to continue.</p>
             )}
             <button type="button" className="btn" disabled={sending || !message.trim()} onClick={send}>
-              {sending ? "Sending…" : "Send my card"}
+              {sending ? "Sending…" : "Customize my card"}
             </button>
           </div>
         </div>
