@@ -11,6 +11,7 @@ const tools = [
   { href: "/advisor", title: "AI Jewelry Advisor", text: "Tell us the occasion, budget and style. Get picks from our collection with reasons." },
   { href: "/gift", title: "Gift Card", text: "Bought a piece as a gift? Add a free card. Get 8 message ideas, pick one or make it your own." },
   { href: "/custom", title: "Custom Design", text: "Describe the piece you imagine and send it to our jeweler. Get an AI concept sketch while you wait." },
+  { href: "/help", title: "Customer Help", text: "Questions about shipping, returns or jewelry care? Get answers from our store policies, with sources." },
 ];
 
 export default function Home() {
