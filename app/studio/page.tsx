@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { postJSON } from "@/lib/post";
 
@@ -74,6 +75,7 @@ export default function Studio() {
     <div className="page narrow">
       <p className="eyebrow">Studio tools · for the shop owner</p>
       <h1>Product copy from a photo</h1>
+      <p className="small"><Link href="/studio/evals" className="link">AI Advisor evals: test the advisor's answer quality →</Link></p>
       <p className="lead">Upload a photo of a new piece. Get a product description, SEO text and tags in seconds.</p>
 
       <form className="form" onSubmit={submit}>
