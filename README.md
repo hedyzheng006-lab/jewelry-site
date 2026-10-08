@@ -7,6 +7,7 @@ A Next.js site for an independent jewelry brand, with four AI features built on 
 | `/advisor` | AI Jewelry Advisor: chat about occasion, budget and style, get picks from the real catalog |
 | `/gift` | Gift Finder: a few questions about the recipient, get gift picks and card messages |
 | `/custom` | Custom Design: describe an idea, get a concept sketch and a design brief to email the jeweler |
+| `/help` | Customer Help: answers shipping, returns and care questions from `lib/knowledge.ts` only (RAG), with sources |
 | `/studio/evals` | Evals for the AI Advisor: 30 test conversations graded by code checks and an LLM judge, with pass rates |
 | `/studio` | Studio tool for the owner: upload a product photo, get product copy, SEO text and tags |
 

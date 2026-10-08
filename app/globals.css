@@ -102,6 +102,9 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); ou
 .composer input { flex: 1; }
 
 .muted { color: var(--muted); }
+.sources { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.sources p, .sources ol { margin: 4px 0; }
+.sources summary { cursor: pointer; }
 .small { font-size: 0.85rem; }
 .error { color: var(--error); }
 .result { margin-top: 32px; }
