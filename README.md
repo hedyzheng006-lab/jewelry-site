@@ -7,6 +7,7 @@ A Next.js site for an independent jewelry brand, with four AI features built on 
 | `/advisor` | AI Jewelry Advisor: chat about occasion, budget and style, get picks from the real catalog |
 | `/gift` | Gift Finder: a few questions about the recipient, get gift picks and card messages |
 | `/custom` | Custom Design: describe an idea, get a concept sketch and a design brief to email the jeweler |
+| `/studio/triage` | Triage agent: Claude uses tools (catalog search, workshop capabilities, price estimate) to assess a custom-design request and draft a reply |
 | `/studio` | Studio tool for the owner: upload a product photo, get product copy, SEO text and tags |
 
 The AI only recommends products from `lib/products.ts`, and unknown ids are filtered out on the server.

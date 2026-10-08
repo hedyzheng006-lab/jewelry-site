@@ -131,3 +131,6 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); ou
 .gift-actions { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; flex-shrink: 0; }
 .gift-preview { font-family: var(--serif); font-size: 1.15rem; font-style: italic; margin: 12px 0 !important; }
 .gift-edit { flex: 1; font-family: var(--serif); font-size: 1.1rem; font-style: italic; min-height: 90px; }
+
+.trace { display: grid; gap: 8px; padding-left: 20px; }
+.trace pre { background: var(--surface); border: 1px solid var(--line); padding: 8px 10px; overflow-x: auto; margin: 6px 0; }
