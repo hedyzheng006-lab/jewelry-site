@@ -39,3 +39,5 @@ claude mcp add --transport http hayaurie https://YOUR-DOMAIN/api/mcp --header "A
 ```
 
 Then ask Claude, for example, "Which Hayaurie earrings are under $30?".
+
+To see it work without installing anything, open `/studio/mcp`, paste the key, and click through the steps: each shows the JSON-RPC request sent and the server's reply.
