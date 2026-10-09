@@ -141,6 +141,19 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); ou
 .site-header nav { align-items: center; }
 .nav-cta { color: var(--accent); }
 .auth-page { display: flex; justify-content: center; }
-.orders { list-style: none; padding: 0; display: grid; gap: 12px; }
-.orders .notice { margin: 0; }
-.orders .notice p { margin: 0; }
+.orders { list-style: none; padding: 0; display: grid; gap: 16px; }
+.order { background: var(--surface); border: 1px solid var(--line); padding: 20px 24px; }
+.order p { margin: 0; }
+.order-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 0.9rem; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.order-status { color: var(--accent); font-weight: 600; }
+.order-status.status-refunded { color: var(--muted); }
+.order-item { display: flex; gap: 16px; align-items: center; padding: 16px 0; }
+.order-thumb { width: 96px; height: 96px; flex: none; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+.order-thumb .product-img { width: 96px; height: 96px; }
+.order-details { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0 0 16px; font-size: 0.95rem; }
+.order-details dt { color: var(--muted); }
+.order-details dd { margin: 0; }
+.btn-small { padding: 8px 18px; font-size: 0.85rem; }
+.refund-form { display: grid; gap: 10px; }
+.refund-form textarea { min-height: 60px; }
+.refund-form .row { display: flex; gap: 10px; flex-wrap: wrap; }
