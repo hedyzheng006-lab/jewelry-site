@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClerkProvider } from "@clerk/nextjs";
+import AuthLinks from "@/components/AuthLinks";
+import CartLink from "@/components/CartLink";
+import { authEnabled } from "@/lib/auth";
 import "./globals.css";
 
 const brand = process.env.NEXT_PUBLIC_BRAND_NAME || "Hayaurie";
@@ -10,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
+  const page = (
     <html lang="en">
       <body>
         <header className="site-header">
@@ -20,6 +24,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/gift">Gift Card</Link>
             <Link href="/custom">Custom Design</Link>
             <Link href="/help">Help</Link>
+            <CartLink />
+            {authEnabled && <AuthLinks />}
           </nav>
         </header>
         <main>{children}</main>
@@ -29,5 +35,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </footer>
       </body>
     </html>
+  );
+  if (!authEnabled) return page;
+  return (
+    <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
+      {page}
+    </ClerkProvider>
   );
 }

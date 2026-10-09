@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ClearCart from "@/components/ClearCart";
 import { getStripe } from "@/lib/stripe";
 
 export const metadata = { title: "Thank you" };
@@ -8,9 +9,9 @@ export const metadata = { title: "Thank you" };
 export default async function CheckoutSuccess({
   searchParams,
 }: {
-  searchParams: Promise<{ session_id?: string }>;
+  searchParams: Promise<{ session_id?: string; cart?: string }>;
 }) {
-  const { session_id } = await searchParams;
+  const { session_id, cart } = await searchParams;
   const session = session_id?.startsWith("cs_") ? await findSession(session_id) : null;
 
   if (!session || session.payment_status !== "paid") {
@@ -27,6 +28,7 @@ export default async function CheckoutSuccess({
   const address = session.collected_information?.shipping_details?.address;
   return (
     <div className="page">
+      {cart === "1" && <ClearCart />}
       <p className="eyebrow">Order confirmed</p>
       <h1>Thank you{session.customer_details?.name ? `, ${session.customer_details.name.split(" ")[0]}` : ""}!</h1>
       <p>A receipt is on its way to {session.customer_details?.email ?? "your email"}.</p>
