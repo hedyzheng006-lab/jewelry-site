@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import BuyButton from "@/components/BuyButton";
 import ProductImage from "@/components/ProductImage";
 import { formatPrice, getProduct, products } from "@/lib/products";
 
@@ -30,6 +31,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           <li>Metal: {metal}</li>
           <li>Stone: {product.stone ?? "none"}</li>
         </ul>
+        <BuyButton productId={product.id} />
         <div className="actions">
           <Link href="/advisor" className="btn btn-outline">Not sure? Ask the AI advisor</Link>
         </div>
