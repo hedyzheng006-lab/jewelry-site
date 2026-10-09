@@ -35,7 +35,7 @@ Set `STRIPE_SECRET_KEY` to a **test** key (`sk_test_...`); live keys are refused
 
 ## Accounts (Clerk)
 
-Shoppers can sign up and log in at `/sign-up` and `/sign-in` (email or Google, set in the Clerk dashboard). Accounts use [Clerk](https://clerk.com)'s free tier, so there is no database to run. When a signed-in shopper buys something, checkout tags the Stripe payment with their user id, and `/orders` lists their paid orders using Stripe search (new orders can take about a minute to appear).
+Shoppers can sign up and log in at `/sign-up` and `/sign-in` (email or Google, set in the Clerk dashboard). Accounts use [Clerk](https://clerk.com)'s free tier, so there is no database to run. When a signed-in shopper buys something for the first time, checkout creates a Stripe customer for them and saves its id in their Clerk private metadata. Every order is attached to that customer, and `/orders` lists their paid checkout sessions straight from Stripe.
 
 Set `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` from the Clerk dashboard. Without them the site works as before, with no account links.
 

@@ -1,18 +1,20 @@
 import Link from "next/link";
 import AuthOff from "@/components/AuthOff";
-import { authEnabled, currentUserId } from "@/lib/auth";
+import { currentUser } from "@clerk/nextjs/server";
+import { authEnabled } from "@/lib/auth";
 import { getStripe } from "@/lib/stripe";
 
 export const metadata = { title: "My orders" };
 
-// Lists the signed-in shopper's paid orders. Checkout tags each payment with the
-// Clerk user id, so we can find them with Stripe search; no database needed.
+// Lists the signed-in shopper's paid orders straight from Stripe, so no database is needed.
+// Checkout attaches each signed-in order to the shopper's Stripe customer.
 export default async function Orders() {
   if (!authEnabled) return <AuthOff />;
-  const userId = await currentUserId();
-  if (!userId) return null; // proxy.ts already sends signed-out visitors to /sign-in
+  const user = await currentUser();
+  if (!user) return null; // proxy.ts already sends signed-out visitors to /sign-in
 
-  const orders = await findOrders(userId);
+  const customer = user.privateMetadata.stripeCustomerId;
+  const orders = typeof customer === "string" ? await findOrders(customer) : [];
   return (
     <div className="page narrow">
       <p className="eyebrow">Your account</p>
@@ -21,7 +23,7 @@ export default async function Orders() {
         <p className="error">Orders could not be loaded right now. Please try again later.</p>
       ) : orders.length === 0 ? (
         <>
-          <p>No orders yet. New orders can take about a minute to show up here.</p>
+          <p>No orders yet.</p>
           <div className="actions"><Link href="/" className="btn">Browse the collection</Link></div>
         </>
       ) : (
@@ -42,13 +44,22 @@ export default async function Orders() {
   );
 }
 
-async function findOrders(userId: string) {
+async function findOrders(customer: string) {
   try {
-    const result = await getStripe().paymentIntents.search({
-      query: `metadata['userId']:'${userId.replace(/[^\w]/g, "")}' AND status:'succeeded'`,
+    const sessions = await getStripe().checkout.sessions.list({
+      customer,
+      status: "complete",
       limit: 50,
+      expand: ["data.line_items"],
     });
-    return result.data.sort((a, b) => b.created - a.created);
+    return sessions.data
+      .filter((s) => s.payment_status === "paid")
+      .map((s) => ({
+        id: s.id,
+        created: s.created,
+        amount: s.amount_total ?? 0,
+        description: s.line_items?.data.map((item) => `${item.quantity} × ${item.description}`).join(", ") ?? "",
+      }));
   } catch (error) {
     console.error("Could not load orders", error);
     return null;

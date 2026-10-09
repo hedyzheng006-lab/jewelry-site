@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { currentUser } from "@clerk/nextjs/server";
-import { authEnabled } from "@/lib/auth";
+import { authEnabled, stripeCustomerId } from "@/lib/auth";
 import { getProduct } from "@/lib/products";
 import { CheckoutError, getStripe, SHIPPING_COUNTRIES, SHIPPING_FLAT_USD } from "@/lib/stripe";
 
@@ -23,7 +23,9 @@ export async function POST(req: Request) {
   const user = authEnabled ? await currentUser() : null;
   const userTag: Record<string, string> = user ? { userId: user.id } : {};
   try {
-    const session = await getStripe().checkout.sessions.create({
+    const stripe = getStripe();
+    const customer = user ? await stripeCustomerId(stripe, user) : undefined;
+    const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [
         {
@@ -58,8 +60,7 @@ export async function POST(req: Request) {
         description: `${parsed.data.quantity} × ${product.name}`,
         metadata: { productId: product.id, ...userTag },
       },
-      ...(user ? { client_reference_id: user.id } : {}),
-      ...(user?.primaryEmailAddress ? { customer_email: user.primaryEmailAddress.emailAddress } : {}),
+      ...(user && customer ? { client_reference_id: user.id, customer } : {}),
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/products/${product.id}`,
     });
