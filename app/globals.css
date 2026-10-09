@@ -157,3 +157,20 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); ou
 .refund-form { display: grid; gap: 10px; }
 .refund-form textarea { min-height: 60px; }
 .refund-form .row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.buy-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.added { margin: 12px 0 0; }
+.cart-link { display: inline-flex; align-items: center; gap: 6px; }
+.cart-count { background: var(--accent); color: #fff; border-radius: 999px; min-width: 20px; height: 20px; padding: 0 6px; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center; }
+.cart { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+.cart-line { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.cart-info { flex: 1; min-width: 0; }
+.cart-info p { margin: 2px 0 8px; }
+.cart-amount { margin: 0; font-weight: 600; }
+.qty { display: flex; align-items: center; gap: 10px; }
+.qty button { width: 32px; height: 32px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-size: 1rem; color: var(--text); }
+.qty button:disabled { opacity: 0.4; cursor: default; }
+.qty .remove { width: auto; height: auto; border: 0; background: none; color: var(--muted); text-decoration: underline; font-size: 0.85rem; margin-left: 8px; }
+.cart-summary { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; max-width: 320px; margin: 24px 0 0 auto; }
+.cart-summary dd { margin: 0; text-align: right; }
+.cart-actions { display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; margin-top: 24px; }

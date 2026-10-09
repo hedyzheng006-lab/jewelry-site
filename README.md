@@ -11,7 +11,7 @@ A Next.js site for an independent jewelry brand, with four AI features built on 
 | `/sign-up`, `/sign-in`, `/orders` | Accounts: sign up, log in, and see your past orders |
 | `/studio` | Studio tool for the owner: upload a product photo, get product copy, SEO text and tags |
 
-Each product page has a **Buy now** button that opens Stripe Checkout in test mode (see below).
+Each product page has **Add to cart** and **Buy now**. The cart (`/cart`) is kept in the browser, so guests can use it too; its Checkout button opens Stripe Checkout in test mode (see below) with every piece in the cart.
 
 The AI only recommends products from `lib/products.ts`, and unknown ids are filtered out on the server.
 

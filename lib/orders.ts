@@ -1,5 +1,5 @@
 import type Stripe from "stripe";
-import { getProduct, type Product } from "@/lib/products";
+import { getProduct, products, type Product } from "@/lib/products";
 import { getStripe } from "@/lib/stripe";
 
 // Orders live in Stripe, so the shop owner manages them from the Stripe dashboard:
@@ -55,18 +55,18 @@ function toOrder(s: Stripe.Checkout.Session): Order {
   else if (meta.delivered === "true") status = "delivered";
   else if (trackingNumber) status = "shipped";
 
-  const productId = s.metadata?.productId;
+  const ids = (s.metadata?.productIds ?? s.metadata?.productId ?? "").split(",");
   const a = s.collected_information?.shipping_details?.address;
   return {
     id: s.id,
     created: s.created,
     total: s.amount_total ?? 0,
     shipping: s.total_details?.amount_shipping ?? 0,
-    items: (s.line_items?.data ?? []).map((item) => ({
+    items: (s.line_items?.data ?? []).map((item, i) => ({
       name: item.description ?? "Item",
       quantity: item.quantity ?? 1,
       amount: item.amount_total,
-      product: productId ? getProduct(productId) : undefined,
+      product: (ids[i] && getProduct(ids[i])) || products.find((p) => p.name === item.description),
     })),
     address: a ? [a.line1, a.line2, a.city, a.state, a.postal_code, a.country].filter(Boolean).join(", ") : null,
     status,

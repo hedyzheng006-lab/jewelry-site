@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ClerkProvider } from "@clerk/nextjs";
 import AuthLinks from "@/components/AuthLinks";
+import CartLink from "@/components/CartLink";
 import { authEnabled } from "@/lib/auth";
 import "./globals.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/gift">Gift Card</Link>
             <Link href="/custom">Custom Design</Link>
             <Link href="/help">Help</Link>
+            <CartLink />
             {authEnabled && <AuthLinks />}
           </nav>
         </header>
