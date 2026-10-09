@@ -137,3 +137,10 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); ou
 .gift-actions { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; flex-shrink: 0; }
 .gift-preview { font-family: var(--serif); font-size: 1.15rem; font-style: italic; margin: 12px 0 !important; }
 .gift-edit { flex: 1; font-family: var(--serif); font-size: 1.1rem; font-style: italic; min-height: 90px; }
+
+.site-header nav { align-items: center; }
+.nav-cta { color: var(--accent); }
+.auth-page { display: flex; justify-content: center; }
+.orders { list-style: none; padding: 0; display: grid; gap: 12px; }
+.orders .notice { margin: 0; }
+.orders .notice p { margin: 0; }

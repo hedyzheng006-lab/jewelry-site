@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { currentUser } from "@clerk/nextjs/server";
+import { authEnabled } from "@/lib/auth";
 import { getProduct } from "@/lib/products";
 import { CheckoutError, getStripe, SHIPPING_COUNTRIES, SHIPPING_FLAT_USD } from "@/lib/stripe";
 
@@ -17,6 +19,9 @@ export async function POST(req: Request) {
   }
 
   const origin = new URL(req.url).origin;
+  // When the shopper is signed in, tag the order with their account so it shows on /orders.
+  const user = authEnabled ? await currentUser() : null;
+  const userTag: Record<string, string> = user ? { userId: user.id } : {};
   try {
     const session = await getStripe().checkout.sessions.create({
       mode: "payment",
@@ -48,7 +53,13 @@ export async function POST(req: Request) {
           },
         },
       ],
-      metadata: { productId: product.id },
+      metadata: { productId: product.id, ...userTag },
+      payment_intent_data: {
+        description: `${parsed.data.quantity} × ${product.name}`,
+        metadata: { productId: product.id, ...userTag },
+      },
+      ...(user ? { client_reference_id: user.id } : {}),
+      ...(user?.primaryEmailAddress ? { customer_email: user.primaryEmailAddress.emailAddress } : {}),
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/products/${product.id}`,
     });
